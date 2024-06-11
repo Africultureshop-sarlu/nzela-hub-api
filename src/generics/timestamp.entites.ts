@@ -8,7 +8,7 @@ export class TimestampEntites {
     })
     createdAt: Date;
 
-    @UpdateDateColumn({ nullable: false })
+    @UpdateDateColumn({ nullable: true })
     updatedAt: Date;
 
     @DeleteDateColumn({ nullable: true })
