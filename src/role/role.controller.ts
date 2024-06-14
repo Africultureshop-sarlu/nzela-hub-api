@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Query, Res, ServiceUnavailableException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Patch, Post, Put, Query, Res, ServiceUnavailableException, ValidationPipe } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Response } from 'express';
 import { AddRoleDto } from './dto/addRole.dto';
@@ -13,11 +13,11 @@ export class RoleController {
         @Res() res: Response, 
     ): Promise<any> {
         try {
-            const role = await this.roleService.getRoles();
+            const roles = await this.roleService.getRoles();
 
-            res.status(HttpStatus.OK).json({
+            return res.status(HttpStatus.OK).json({
                 "message" : "Role receveid with successfully",
-                "data" : role,
+                "data" : roles,
             });
         } catch (error) {
             new BadRequestException();
@@ -32,7 +32,7 @@ export class RoleController {
         try {            
             const role = await this.roleService.getRole(id);
 
-            res.status(HttpStatus.OK).json({
+            return res.status(HttpStatus.OK).json({
                 "message" : "Role receveid with successfully",
                 "data" : role,
             });
@@ -51,13 +51,13 @@ export class RoleController {
             const role = await this.roleService.createRole(roleDto);
 
             if(role){
-                res.status(HttpStatus.CREATED).json({
+                return res.status(HttpStatus.CREATED).json({
                     "message" : "Role created with successfully",
                     "data" : role,
                 });
             }
         } catch {
-            res.status(HttpStatus.NOT_FOUND).json({
+            return res.status(HttpStatus.NOT_FOUND).json({
                 "message" : "Role are not created",
                 "data" : [],
             });
@@ -73,17 +73,34 @@ export class RoleController {
         try {
             const roleUpdate = await this.roleService.updateRole(id, roleUpdateDto);
             if (roleUpdate){
-                res.status(HttpStatus.CREATED).json({
+                return res.status(HttpStatus.CREATED).json({
                     "message" : "Role updated with successfully",
                     "data" : roleUpdate,
                 });
             }
         } catch (error) {
-            res.status(HttpStatus.NOT_FOUND).json({
+            return res.status(HttpStatus.NOT_FOUND).json({
                 "message" : "Role are not updated",
                 "error" : error,
                 "data" : [],
             });
         }
     }
+
+    @Delete(":id")
+    async deleteRole(
+        @Res() res: Response,
+        @Param("id", ParseIntPipe) id: number
+    ){
+        try {
+            const roleDeleted = await this.roleService.deleteRole(id);
+            return res.status(HttpStatus.OK).json({
+                message : "Role deleted successfully",
+                data : roleDeleted
+            })
+        } catch (error) {
+            throw new NotFoundException('Please try again')
+        }
+    }
+
 }
