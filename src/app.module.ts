@@ -8,6 +8,9 @@ import { CountryModule } from './country/country.module';
 import { EstablishmentModule } from './establishment/establishment.module';
 import { ProvincialModule } from './provincial/provincial.module';
 import { TownshipModule } from './township/township.module';
+import { CommentModule } from './comment/comment.module';
+import { TypeRoomModule } from './type_room/type_room.module';
+import { RoomModule } from './room/room.module';
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -30,6 +33,9 @@ dotenv.config();
     EstablishmentModule,
     ProvincialModule,
     TownshipModule,
+    CommentModule,
+    TypeRoomModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],

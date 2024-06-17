@@ -1,6 +1,6 @@
 import { TimestampEntites } from "src/generics/timestamp.entites";
 import { UserEntity } from "src/user/entities/user.entity/user.entity";
-import { Column, Entity, Generated, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Generated, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('roles')
 export class RoleEntity extends TimestampEntites{
@@ -18,13 +18,11 @@ export class RoleEntity extends TimestampEntites{
     @Column({ nullable: false })
     description_role: string;
 
-    @ManyToMany(() => UserEntity, users => users.uuid, {
-        cascade: ['insert', 'update'],
-        nullable: false,
-        eager: true
-    })
+    @ManyToMany(() => UserEntity, users => users.uuid)
     @JoinTable({
         name: "user_roles",
+        joinColumns: [{ name : "role_id", referencedColumnName:"id" }],
+        inverseJoinColumns : [{ name : "user_id", referencedColumnName: "id" }]
     })
     user_role: UserEntity[];
 }
