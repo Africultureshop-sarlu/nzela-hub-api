@@ -1,3 +1,4 @@
+import { BookingRoomEntity } from "src/booking_room/entities/booking_room.entity/booking_room.entity";
 import { EstablishmentEntity } from "src/establishment/entities/establishment.entity/establishment.entity";
 import { TypeRoomEntity } from "src/type_room/entities/type_room.entity/type_room.entity";
 import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -39,5 +40,6 @@ export class RoomEntity {
     })
     establishment: EstablishmentEntity;
 
-
+    @ManyToOne(() => BookingRoomEntity, (booking_room) => booking_room.room)
+    booking_rooms: BookingRoomEntity[];
 }
