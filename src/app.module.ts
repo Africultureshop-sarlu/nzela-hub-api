@@ -6,6 +6,8 @@ import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { CountryModule } from './country/country.module';
 import { EstablishmentModule } from './establishment/establishment.module';
+import { ProvincialModule } from './provincial/provincial.module';
+import { TownshipModule } from './township/township.module';
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -26,6 +28,8 @@ dotenv.config();
     RoleModule,
     CountryModule,
     EstablishmentModule,
+    ProvincialModule,
+    TownshipModule,
   ],
   controllers: [AppController],
   providers: [AppService],

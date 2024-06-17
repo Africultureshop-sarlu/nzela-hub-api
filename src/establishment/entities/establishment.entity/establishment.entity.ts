@@ -1,5 +1,5 @@
 import { TimestampEntites } from "src/generics/timestamp.entites";
-import { Entity, Generated, OneToMany, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, Generated, OneToMany, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
 import { CountryEntity } from "../../../country/entities/country.entity/country.entity";
 
 @Entity('establishments')
@@ -47,6 +47,7 @@ export class EstablishmentEntity extends TimestampEntites {
     @Column({ nullable: true, type: 'json'})
     settings: JSON;
 
-    @ManyToOne(() => CountryEntity, (country) => country.establishments, {})
-    country: CountryEntity
+    @ManyToOne(() => CountryEntity, (country) => country.uuid)
+    @JoinColumn({ name: 'country_id'})
+    country: CountryEntity;
 }

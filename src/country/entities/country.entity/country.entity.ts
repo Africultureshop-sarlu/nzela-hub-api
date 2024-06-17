@@ -1,6 +1,7 @@
 import { TimestampEntites } from "src/generics/timestamp.entites";
 import { Column, Entity, Generated, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EstablishmentEntity } from "../../../establishment/entities/establishment.entity/establishment.entity";
+import { ProvincialEntity } from "src/provincial/entities/provincial.entity/provincial.entity";
 
 @Entity('countries')
 export class CountryEntity extends TimestampEntites {
@@ -21,7 +22,9 @@ export class CountryEntity extends TimestampEntites {
     @Column({ nullable: true })
     description: string;
 
-    @OneToMany(() => EstablishmentEntity, (establishment) => establishment.country)
+    @OneToMany(() => EstablishmentEntity, (establishment) => establishment.uuid)
     establishments: EstablishmentEntity[]
 
+    @OneToMany(() => ProvincialEntity, (provincial) => provincial.uuid)
+    provincials: ProvincialEntity[];
 }
