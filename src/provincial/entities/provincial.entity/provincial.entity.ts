@@ -13,10 +13,16 @@ export class ProvincialEntity extends TimestampEntites {
     @Column()
     uuid: string;
 
-    @OneToMany(() => TownshipEntity, (townships) => townships.uuid)
+    @Column({ nullable: false })
+    provincial_name: string;
+
+    @Column({ nullable: false })
+    description: string;
+
+    @OneToMany(() => TownshipEntity, (townships) => townships.provincial, { nullable: false })
     townships: TownshipEntity[];
 
-    @ManyToOne(() => CountryEntity, (country) => country.uuid)
+    @ManyToOne(() => CountryEntity, (country) => country.provincials, { nullable: false })
     @JoinColumn({ name: 'country_id'})
     country: CountryEntity;
 }

@@ -18,7 +18,7 @@ export class TownshipEntity extends TimestampEntites {
     @Column({ nullable: false })
     description_township: string;
 
-    @ManyToOne(() => ProvincialEntity, (provincial) => provincial.uuid)
-    @JoinColumn({ name: 'provincial_id'})
+    @ManyToOne(() => ProvincialEntity, (provincial) => provincial.townships, { nullable: false })
+    @JoinColumn({ name: 'provincial_id' , referencedColumnName: 'id'})
     provincial: ProvincialEntity;
 }

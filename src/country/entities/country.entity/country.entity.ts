@@ -22,9 +22,9 @@ export class CountryEntity extends TimestampEntites {
     @Column({ nullable: true })
     description: string;
 
-    @OneToMany(() => EstablishmentEntity, (establishment) => establishment.uuid)
+    @OneToMany(() => EstablishmentEntity, (establishment) => establishment.uuid, {nullable: false})
     establishments: EstablishmentEntity[]
 
-    @OneToMany(() => ProvincialEntity, (provincial) => provincial.uuid)
+    @OneToMany(() => ProvincialEntity, (provincial) => provincial.country)
     provincials: ProvincialEntity[];
 }

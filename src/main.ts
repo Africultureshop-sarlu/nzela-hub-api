@@ -20,8 +20,9 @@ async function bootstrap() {
                     .setTitle('Nzela Hub')
                     .setDescription('Nzela Hub API description')
                     .setVersion('1.0')
-                    .addTag('cats')
+                    // .addTag('country')
                     .build();
+                    
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
