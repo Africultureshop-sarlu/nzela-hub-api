@@ -1,6 +1,7 @@
-import { BadRequestException, Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { EstablishmentService } from './establishment.service';
 import { Response } from 'express';
+import { AddEstablishmentDto } from './dto/addEstablishment.dto';
 
 @Controller('establishments')
 export class EstablishmentController {
@@ -9,7 +10,7 @@ export class EstablishmentController {
     ){}
 
     @Get()
-    async establishments(
+    async getEstablishments(
         @Res() res: Response, 
     ): Promise<any> {
         try {            
@@ -22,6 +23,29 @@ export class EstablishmentController {
 
         }catch(err){
             new BadRequestException('Request failed, please try again');
+        }
+    }
+
+    @Post()
+    async createEstablishments(
+        @Body() addEstablishmentDto: AddEstablishmentDto,
+        @Res() res : Response
+    ): Promise<any> {
+        try {
+            
+            const establishment = await this.establishmentService.createEstablishments(addEstablishmentDto);
+
+            return res.status(HttpStatus.OK).json({
+                "message" : "Establishments created with successfully",
+                "data" : establishment,
+            });
+
+        } catch (error) {
+            return res.status(HttpStatus.NOT_FOUND).json({
+                "message" : "Establishments has not been created",
+                "data" : [],
+                "error" : error,
+            });
         }
     }
 }

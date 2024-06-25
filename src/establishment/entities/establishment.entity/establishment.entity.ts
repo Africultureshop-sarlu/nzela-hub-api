@@ -7,7 +7,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { CountryEntity } from '../../../country/entities/country.entity/country.entity';
+import { TypeEstablishmentEntity } from 'src/type_establishment/entities/type_establishment.entity/type_establishment.entity';
+import { TownshipEntity } from 'src/township/entities/township.entity/township.entity';
 
 @Entity('establishments')
 export class EstablishmentEntity extends TimestampEntites {
@@ -54,11 +55,12 @@ export class EstablishmentEntity extends TimestampEntites {
   @Column({ nullable: true, type: 'json' })
   settings: JSON;
 
-  @ManyToOne(() => CountryEntity, (country) => country.uuid)
-  @JoinColumn({ name: 'country_id' })
-  country: CountryEntity[];
+  @ManyToOne(() => TownshipEntity, (township) => township.establishments, { nullable: false })
+  @JoinColumn({ name: 'township_id' })
+  township: TownshipEntity;
 
-  @ManyToOne(() => EstablishmentEntity, (establishment) => establishment.uuid)
-  @JoinColumn({ name: 'establishment_id' })
-  establishment: EstablishmentEntity[];
+  @ManyToOne(() => TypeEstablishmentEntity, (type_establishment) => type_establishment.establishments, { nullable: false})
+  @JoinColumn({ name: 'type_establishment_id' })
+  type_establishment: TypeEstablishmentEntity;
+
 }

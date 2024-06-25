@@ -38,7 +38,7 @@ export class TownshipController {
                     data: [],
                 })
             }
-            return res.status(HttpStatus.BAD_REQUEST).json({
+            return res.status(HttpStatus.OK).json({
                 message: "Township created successfully",
                 data: townshipCreated,
             })
