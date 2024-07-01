@@ -60,7 +60,7 @@ jobs:
       run: docker build -t nzela-hup-api .
 
     - name: Push to Docker Hub 
-      run: docker push hobed24/nzela-hup-api:0.0.1
+      run: docker push hobed24/nzela-hup-api:beta-version
       
   # deploy:
   #   name: Deploy
