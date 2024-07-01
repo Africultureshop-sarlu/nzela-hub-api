@@ -60,7 +60,7 @@ jobs:
       run: docker build -t nzela-hup-api .
 
     - name: Push to Docker Hub 
-      run: docker push $DOCKER_USERNAME/nzela-hup-api:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/nzela-hup-api:latest
       
   # deploy:
   #   name: Deploy
