@@ -2,7 +2,9 @@ import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post,
 import { Response } from 'express';
 import { ProvincialService } from './provincial.service';
 import { AddProvinceDto } from './dto/addProvincial.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('provincial')
 @Controller('provincial')
 export class ProvincialController {
     constructor(private readonly provincialService: ProvincialService){}

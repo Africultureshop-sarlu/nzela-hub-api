@@ -2,7 +2,9 @@ import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { TypeEstablishmentService } from './type_establishment.service';
 import { Response } from 'express';
 import { AddTypeEstablishmentDto } from './dto/addTypeEstablishment.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('type-establishment')
 @Controller('type-establishment')
 export class TypeEstablishmentController {
     constructor(

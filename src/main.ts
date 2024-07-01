@@ -20,12 +20,13 @@ async function bootstrap() {
                     .setTitle('Nzela Hub')
                     .setDescription('Nzela Hub API description')
                     .setVersion('1.0')
+                    .setContact('Hobed Bayekula', '', 'hobedbayekula@gmail.com')
                     // .addTag('country')
                     .build();
                     
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(8300);
 }
 bootstrap();

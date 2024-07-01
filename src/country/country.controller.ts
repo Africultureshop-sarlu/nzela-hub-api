@@ -2,7 +2,9 @@ import { BadRequestException, Body, Controller, Get, HttpStatus, Param, ParseInt
 import { Response } from 'express';
 import { CountryService } from './country.service';
 import { AddCountryDto } from './dto/addCountry.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('country')
 @Controller('country')
 export class CountryController {
     constructor( private readonly countryService: CountryService){}

@@ -2,7 +2,9 @@ import { Body, Controller, Get, HttpStatus, NotFoundException, Post, Res } from 
 import { TownshipService } from './township.service';
 import { Response } from 'express';
 import { addTownshipDto } from './dto/addTownship.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('township')
 @Controller('township')
 export class TownshipController {
     constructor(
