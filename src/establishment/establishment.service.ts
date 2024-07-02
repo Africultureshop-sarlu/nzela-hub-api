@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EstablishmentEntity } from './entities/establishment.entity/establishment.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddEstablishmentDto } from './dto/addEstablishment.dto';
 import { TownshipEntity } from 'src/township/entities/township.entity/township.entity';
@@ -89,4 +89,11 @@ export class EstablishmentService {
         }
     }
     
+    async getEstablishment(id: number) : Promise<EstablishmentEntity>{
+        return await this.establishmentRespository.findOne({
+            where: {
+                id: id,
+            },
+        });
+    }
 }
