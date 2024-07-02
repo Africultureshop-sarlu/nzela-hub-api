@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Pull docker image
-        run: sudo docker pull hobed24/nzela-hup-api:0.0.1
+        run: sudo docker pull hobed24/nzela-hub-api:0.0.1
 
       - name: Delete old docker container
-        run: sudo docker rm -f nzela-hup-api-container || true 
+        run: sudo docker rm -f nzela-hub-api-container || true 
 
       - name: Run Docker Container
-        run: sudo docker run -d -p 8080:8080 --name nzela-hup-api-container hobed24/nzela-hup-api:0.0.1
+        run: sudo docker run -d -p 8080:8080 --name nzela-hub-api-container hobed24/nzela-hub-api:0.0.1
