@@ -1,10 +1,13 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { EstablishmentService } from './establishment.service';
 import { Response } from 'express';
 import { AddEstablishmentDto } from './dto/addEstablishment.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('establishments')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('establishments')
 export class EstablishmentController {
     constructor(

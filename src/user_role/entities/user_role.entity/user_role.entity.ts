@@ -18,7 +18,7 @@ export class UserRoleEntity extends TimestampEntites {
     })
     user: UserEntity;
 
-    @ManyToOne(() => RoleEntity, (role) => role.uuid)
+    @ManyToOne(() => RoleEntity, (role) => role.user_roles)
     @JoinColumn({
         name: "role_id",
     })

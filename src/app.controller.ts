@@ -7,7 +7,8 @@ import { ApiTags } from '@nestjs/swagger';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @ApiTags('default')
+  @Get("")
   welcomeMessage(): string {
     return this.appService.welcomeMessage();
   }

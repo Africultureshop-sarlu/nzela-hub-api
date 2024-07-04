@@ -1,10 +1,13 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Res } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ProvincialService } from './provincial.service';
 import { AddProvinceDto } from './dto/addProvincial.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('provincial')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('provincial')
 export class ProvincialController {
     constructor(private readonly provincialService: ProvincialService){}

@@ -1,10 +1,13 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { TypeEstablishmentService } from './type_establishment.service';
 import { Response } from 'express';
 import { AddTypeEstablishmentDto } from './dto/addTypeEstablishment.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('type-establishment')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('type-establishment')
 export class TypeEstablishmentController {
     constructor(

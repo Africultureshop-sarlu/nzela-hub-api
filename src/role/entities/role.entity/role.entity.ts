@@ -11,7 +11,7 @@ export class RoleEntity extends TimestampEntites{
 
     @Column()
     @Generated('uuid')
-    uuid: number;
+    uuid: string;
 
     @Column({ nullable: false })
     name_role: string;
@@ -20,10 +20,5 @@ export class RoleEntity extends TimestampEntites{
     description_role: string;
 
     @OneToMany(() => UserRoleEntity, (user_role) => user_role.role)
-    // @JoinTable({
-    //     name: "user_roles",
-    //     joinColumns: [{ name : "role_id", referencedColumnName:"id" }],
-    //     inverseJoinColumns : [{ name : "user_id", referencedColumnName: "id" }]
-    // })
     user_roles: UserRoleEntity[];
 }

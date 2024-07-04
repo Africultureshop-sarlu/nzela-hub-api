@@ -1,10 +1,13 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { CountryService } from './country.service';
 import { AddCountryDto } from './dto/addCountry.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('country')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('country')
 export class CountryController {
     constructor( private readonly countryService: CountryService){}

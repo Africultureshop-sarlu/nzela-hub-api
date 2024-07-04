@@ -21,7 +21,6 @@ async function bootstrap() {
                     .setDescription('Nzela Hub API description')
                     .setVersion('1.0')
                     .setContact('Hobed Bayekula', '', 'hobedbayekula@gmail.com')
-                    // .addTag('country')
                     .build();
                     
   const document = SwaggerModule.createDocument(app, config);

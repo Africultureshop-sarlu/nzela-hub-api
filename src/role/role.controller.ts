@@ -1,16 +1,19 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Patch, Post, Put, Query, Res, ServiceUnavailableException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, ParseIntPipe, Patch, Post, Put, Query, Res, ServiceUnavailableException, UseGuards, ValidationPipe } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Response } from 'express';
 import { AddRoleDto } from './dto/addRole.dto';
 import { UpdateRoleDto } from './dto/updateRole.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('role')
+@UseGuards(AuthGuard)
 @Controller('role')
 export class RoleController {
     constructor( private readonly roleService: RoleService){}
 
     @Get()
+    @ApiBearerAuth()
     async getAllRole(
         @Res() res: Response, 
     ): Promise<any> {
@@ -27,6 +30,7 @@ export class RoleController {
     }
 
     @Get(":id")
+    @ApiBearerAuth()
     async getRoleById(
         @Res() res: Response,
         @Param("id", ParseIntPipe) id: number
@@ -44,6 +48,7 @@ export class RoleController {
     }
 
     @Post()
+    @ApiBearerAuth()
     async createRole(
         @Body() roleDto: AddRoleDto,
         @Res() res: Response, 
@@ -67,6 +72,7 @@ export class RoleController {
     }
 
     @Put(":id")
+    @ApiBearerAuth()
     async updateRole(
         @Body() roleUpdateDto: UpdateRoleDto,
         @Res() res: Response, 
@@ -90,6 +96,7 @@ export class RoleController {
     }
 
     @Delete(":id")
+    @ApiBearerAuth()
     async deleteRole(
         @Res() res: Response,
         @Param("id", ParseIntPipe) id: number

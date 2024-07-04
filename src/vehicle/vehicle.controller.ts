@@ -1,6 +1,18 @@
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('vehicle')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('vehicle')
-export class VehicleController {}
+export class VehicleController {
+
+    @Get()
+    async getVehicle(): Promise<any>{
+        return {
+            "message": "Vehicle",
+            "data": []
+        }
+    }
+}

@@ -1,10 +1,13 @@
-import { Body, Controller, Get, HttpStatus, NotFoundException, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Post, Res, UseGuards } from '@nestjs/common';
 import { TownshipService } from './township.service';
 import { Response } from 'express';
 import { addTownshipDto } from './dto/addTownship.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/jwt/auth.guard';
 
 @ApiTags('township')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('township')
 export class TownshipController {
     constructor(
