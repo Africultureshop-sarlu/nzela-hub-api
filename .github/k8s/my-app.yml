@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: hobed24/nzela-hub-api:0.0.1
+        ports:
+        - containerPort: 8300
+        env:
+        - name: DB_USERNAME
+          value: "root"
+        - name: DB_PASSWORD
+          value: "db_password2024"
+        - name: DB_NAME
+          value: "nzela_hub_api"
+        - name: DB_HOST
+          value: "db"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 8300
+    targetPort: 8300
+  type: LoadBalancer

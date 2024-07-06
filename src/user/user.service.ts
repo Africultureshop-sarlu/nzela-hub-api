@@ -32,6 +32,15 @@ export class UserService {
         };
     }
 
+    async getUserMoreInfo(id: string): Promise<UserEntity> {
+        return await this.userRepository.findOne({
+            where: {
+                uuid: id,
+            },
+            relations: ['roles']
+        })
+    }
+
     async createUser(addUserDto: AddUserDto): Promise<any> {
         
         const queryRunner = this.dataSource.createQueryRunner();

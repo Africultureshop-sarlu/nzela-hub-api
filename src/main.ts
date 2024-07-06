@@ -16,13 +16,14 @@ async function bootstrap() {
     }),
   );
 
+  // const options = new DocumentBuilder().addBearerAuth();
   const config = new DocumentBuilder()
                     .setTitle('Nzela Hub')
                     .setDescription('Nzela Hub API description')
                     .setVersion('1.0')
                     .setContact('Hobed Bayekula', '', 'hobedbayekula@gmail.com')
+                    .addBearerAuth()
                     .build();
-                    
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 

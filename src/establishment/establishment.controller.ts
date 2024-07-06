@@ -1,6 +1,16 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { EstablishmentService } from './establishment.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { AddEstablishmentDto } from './dto/addEstablishment.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
@@ -17,8 +27,12 @@ export class EstablishmentController {
     @Get()
     async getEstablishments(
         @Res() res: Response, 
+        @Req() req: Request,
     ): Promise<any> {
+        
         try {            
+            const user = req['user'];
+
             const establishments = await this.establishmentService.getEstablishments();
 
             return res.status(HttpStatus.OK).json({
@@ -34,7 +48,8 @@ export class EstablishmentController {
     @Post()
     async createEstablishments(
         @Body() addEstablishmentDto: AddEstablishmentDto,
-        @Res() res : Response
+        @Res() res : Response,
+        @Req() req: Request,
     ): Promise<any> {
         try {
             
