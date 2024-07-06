@@ -20,28 +20,28 @@ jobs:
       - name: Delete old docker container
         run: sudo docker rm -f nzela-hub-api-container || true 
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-1 # Remplacez par votre région AWS
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-west-1 # Remplacez par votre région AWS
 
-      # - name: Run Docker Container
-      #   run: sudo docker run -d -p 8080:8080 --name nzela-hub-api-container hobed24/nzela-hub-api:0.0.1
+      - name: Run Docker Container
+        run: sudo docker run -d -p 8080:8080 --name nzela-hub-api-container hobed24/nzela-hub-api:0.0.1
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'v1.18.0'
+      # - name: Set up kubectl
+      #   uses: azure/setup-kubectl@v1
+      #   with:
+      #     version: 'v1.18.0'
 
-      - name: Update kubeconfig
-        run: |
-          aws eks update-kubeconfig --name <your-cluster-name> --region us-west-2
+      # - name: Update kubeconfig
+      #   run: |
+      #     aws eks update-kubeconfig --name <your-cluster-name> --region us-west-2
 
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f k8s/configmap.yaml
-          kubectl apply -f k8s/db.yaml
-          kubectl apply -f k8s/adminer.yaml
-          kubectl apply -f k8s/my-app.yaml
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     kubectl apply -f k8s/configmap.yaml
+      #     kubectl apply -f k8s/db.yaml
+      #     kubectl apply -f k8s/adminer.yaml
+      #     kubectl apply -f k8s/my-app.yaml

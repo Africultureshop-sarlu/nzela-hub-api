@@ -1,4 +1,4 @@
-name: Continuous deployment
+name: EKS Continuous deployment
 
 on:
   workflow_run:
