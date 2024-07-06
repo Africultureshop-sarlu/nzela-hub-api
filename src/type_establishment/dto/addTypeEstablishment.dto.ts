@@ -5,11 +5,12 @@ export class AddTypeEstablishmentDto {
     
     @ApiProperty({
         required: true,
-        minLength: 3,
+        minLength: 1,
+        type: "integer"
     })
     @IsNotEmpty()
-    @MinLength(3)
-    name_type_establishment: string;
+    @MinLength(1)
+    name_type_establishment: number;
 
     @ApiProperty({
         required: false,

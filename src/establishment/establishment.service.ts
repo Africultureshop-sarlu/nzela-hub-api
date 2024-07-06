@@ -33,10 +33,6 @@ export class EstablishmentService {
     async createEstablishments(
         addEstablishmentDto: AddEstablishmentDto
     ): Promise<any>{
-        // const queryRunner = this.dataSource.createQueryBuilder();
-
-        // await queryRunner.connect();
-        // await queryRunner.startTransaction();
 
         try {
             const { 
@@ -89,11 +85,15 @@ export class EstablishmentService {
         }
     }
     
-    async getEstablishment(id: number) : Promise<EstablishmentEntity>{
-        return await this.establishmentRespository.findOne({
+    async getEstablishment(uuid: string) : Promise<any>{
+        const dataEstablishment = await this.establishmentRespository.findOne({
             where: {
-                id: id,
+                uuid: uuid,
             },
+            relations : {
+                type_establishment: true,
+            }
         });
+        return dataEstablishment;
     }
 }

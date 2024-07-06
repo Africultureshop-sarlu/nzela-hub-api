@@ -1,8 +1,9 @@
+import { TimestampEntites } from "src/generics/timestamp.entites";
 import { RoomEntity } from "src/room/entities/room.entity/room.entity";
 import { Column, Entity, Generated, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('type_rooms')
-export class TypeRoomEntity {
+export class TypeRoomEntity extends TimestampEntites {
 
     @PrimaryGeneratedColumn()
     id: number;

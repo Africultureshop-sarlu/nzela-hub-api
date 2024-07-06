@@ -13,7 +13,7 @@ export class TypeEstablishmentEntity extends TimestampEntites {
     uuid: string;
 
     @Column({ nullable: false})
-    name_type_establishment: string;
+    name_type_establishment: number;
 
     @Column({ nullable: true, type: "text" })
     description_type_establishment: string;

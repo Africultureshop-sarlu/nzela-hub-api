@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   Post,
   Req,
   Res,
@@ -38,6 +39,28 @@ export class EstablishmentController {
             return res.status(HttpStatus.OK).json({
                 "message" : "Establishments receveid with successfully",
                 "data" : establishments,
+            });
+
+        }catch(err){
+            new BadRequestException('Request failed, please try again');
+        }
+    }
+
+    @Get(":id")
+    async getEstablishment(
+        @Res() res: Response, 
+        @Req() req: Request,
+        @Param("id") id: string
+    ): Promise<any> {
+        
+        try {            
+            const user = req['user'];
+
+            const establishment = await this.establishmentService.getEstablishment(id);
+
+            return res.status(HttpStatus.OK).json({
+                "message" : "Establishment receveid with successfully",
+                "data" : establishment,
             });
 
         }catch(err){

@@ -6,9 +6,11 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { TypeEstablishmentEntity } from 'src/type_establishment/entities/type_establishment.entity/type_establishment.entity';
 import { TownshipEntity } from 'src/township/entities/township.entity/township.entity';
+import { RoomEntity } from 'src/room/entities/room.entity/room.entity';
 
 @Entity('establishments')
 export class EstablishmentEntity extends TimestampEntites {
@@ -63,4 +65,6 @@ export class EstablishmentEntity extends TimestampEntites {
   @JoinColumn({ name: 'type_establishment_id' })
   type_establishment: TypeEstablishmentEntity;
 
+  @OneToMany(() => RoomEntity, (room) => room.establishment, { nullable: false})
+  rooms: RoomEntity[];
 }
