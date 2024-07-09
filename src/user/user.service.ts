@@ -4,7 +4,7 @@ import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity/user.entity';
 import { AddUserDto } from './dto/addUser.dto';
 import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
-import  * as bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
 import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
 import { LoginCredentialsDto } from './dto/login_credentials.dto';
 import { JwtService } from '@nestjs/jwt';

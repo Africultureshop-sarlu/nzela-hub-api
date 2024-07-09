@@ -6,9 +6,11 @@ import { EstablishmentEntity } from './entities/establishment.entity/establishme
 import { TownshipEntity } from 'src/township/entities/township.entity/township.entity';
 import { TypeEstablishmentEntity } from 'src/type_establishment/entities/type_establishment.entity/type_establishment.entity';
 import { UserEntity } from 'src/user/entities/user.entity/user.entity';
+import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
+import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EstablishmentEntity, TownshipEntity, TypeEstablishmentEntity, UserEntity])],
+  imports: [TypeOrmModule.forFeature([EstablishmentEntity, TownshipEntity, TypeEstablishmentEntity, UserEntity, UserRoleEntity, RoleEntity])],
   providers: [EstablishmentService],
   controllers: [EstablishmentController],
 })

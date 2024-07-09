@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EstablishmentEntity } from './entities/establishment.entity/establishment.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddEstablishmentDto } from './dto/addEstablishment.dto';
 import { TownshipEntity } from 'src/township/entities/township.entity/township.entity';
 import { TypeEstablishmentEntity } from 'src/type_establishment/entities/type_establishment.entity/type_establishment.entity';
+import { UserEntity } from 'src/user/entities/user.entity/user.entity';
+import * as bcrypt from 'bcrypt';
+import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
+import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
 
 @Injectable()
 export class EstablishmentService {
@@ -19,7 +23,7 @@ export class EstablishmentService {
         @InjectRepository(TypeEstablishmentEntity)
         private typeEstablishmentRespository: Repository<TypeEstablishmentEntity>,
 
-        // private dataSource: DataSource
+        private dataSource: DataSource,
     ){}
 
     async getEstablishments(): Promise<EstablishmentEntity[]> {
@@ -33,6 +37,11 @@ export class EstablishmentService {
     async createEstablishments(
         addEstablishmentDto: AddEstablishmentDto
     ): Promise<any>{
+                
+        const queryRunner = this.dataSource.createQueryRunner();
+
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
 
         try {
             const { 
@@ -58,6 +67,27 @@ export class EstablishmentService {
             if(! typeEstablishmentFound || ! townshipFound){
                 return null;
             }
+            const role = await queryRunner.manager.findOne(RoleEntity, {
+                where: {
+                    name_role: 'manager',
+                }
+            });
+
+            const user = new UserEntity();
+
+            user.firstname = name_establishment;
+            user.lastname = name_establishment;
+            user.email = email;
+            user.salt = await bcrypt.genSalt();
+            user.password = await bcrypt.hash(name_establishment, user.salt);
+            
+            const userCreated = await queryRunner.manager.save(UserEntity, user);
+
+            const userRole = new UserRoleEntity();
+            userRole.user = userCreated;
+            userRole.role = role;
+
+            await queryRunner.manager.save(UserRoleEntity, userRole);
 
             const establishment = new EstablishmentEntity();
 
@@ -75,8 +105,13 @@ export class EstablishmentService {
             establishment.latitude = latitude;
             establishment.longitude = longitude;
             establishment.email = email;
+            establishment.user = userCreated;
 
-            const establishmentCreated = await this.establishmentRespository.save(establishment);
+            // const establishmentCreated = await this.establishmentRespository.save(establishment);
+            
+            const establishmentCreated = await queryRunner.manager.save(EstablishmentEntity, establishment);
+
+            await queryRunner.commitTransaction();
 
             return establishmentCreated;
             
