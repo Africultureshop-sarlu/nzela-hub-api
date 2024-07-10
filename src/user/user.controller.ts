@@ -7,8 +7,8 @@ import { Response } from 'express';
 import { LoginCredentialsDto } from './dto/login_credentials.dto';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('user')
-@Controller('user')
+@ApiTags('api/user')
+@Controller('api/user')
 export class UserController {
     constructor(private readonly userService: UserService ){}
 

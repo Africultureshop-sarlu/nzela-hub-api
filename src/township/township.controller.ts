@@ -5,10 +5,10 @@ import { addTownshipDto } from './dto/addTownship.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('township')
+@ApiTags('api/township')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('township')
+@Controller('api/township')
 export class TownshipController {
     constructor(
         private townshipService: TownshipService

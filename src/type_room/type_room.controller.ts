@@ -5,10 +5,10 @@ import { Response } from 'express';
 import { TypeRoomService } from './type_room.service';
 import { AddTypeRoomDto } from './dto/addTypeRoom.dto';
 
-@ApiTags('type-room')
+@ApiTags('api/type-room')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('type-room')
+@Controller('api/type-room')
 export class TypeRoomController {
     constructor(
         private typeRoomService: TypeRoomService,

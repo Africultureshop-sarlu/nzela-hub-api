@@ -2,10 +2,10 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('vehicle')
+@ApiTags('api/vehicle')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('vehicle')
+@Controller('api/vehicle')
 export class VehicleController {
 
     @Get()

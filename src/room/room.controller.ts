@@ -5,10 +5,10 @@ import { Response } from 'express';
 import { RoomService } from './room.service';
 import { AddRoomDto } from './dto/addRoom.dto';
 
-@ApiTags('room')
+@ApiTags('api/room')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('room')
+@Controller('api/room')
 export class RoomController {
     constructor(
         private readonly roomService: RoomService,

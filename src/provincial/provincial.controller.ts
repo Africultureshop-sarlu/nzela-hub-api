@@ -5,10 +5,10 @@ import { AddProvinceDto } from './dto/addProvincial.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('provincial')
+@ApiTags('api/provincial')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('provincial')
+@Controller('api/provincial')
 export class ProvincialController {
     constructor(private readonly provincialService: ProvincialService){}
 

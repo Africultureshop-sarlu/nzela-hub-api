@@ -5,10 +5,10 @@ import { AddCountryDto } from './dto/addCountry.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('country')
+@ApiTags('api/country')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('country')
+@Controller('api/country')
 export class CountryController {
     constructor( private readonly countryService: CountryService){}
 

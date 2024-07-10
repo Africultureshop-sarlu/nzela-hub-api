@@ -4,10 +4,10 @@ import { Response } from 'express';
 import { UserRoleService } from './user_role.service';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('user-role')
+@ApiTags('api/user-role')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('user-role')
+@Controller('api/user-role')
 export class UserRoleController {
     constructor(
         private readonly userRoleService: UserRoleService

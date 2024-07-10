@@ -16,10 +16,10 @@ import { AddEstablishmentDto } from './dto/addEstablishment.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('establishments')
+@ApiTags('api/establishments')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('establishments')
+@Controller('api/establishments')
 export class EstablishmentController {
     constructor(
         private readonly establishmentService: EstablishmentService

@@ -19,6 +19,9 @@ import { PaymentVehicleModule } from './payment_vehicle/payment_vehicle.module';
 import { UserRoleModule } from './user_role/user_role.module';
 import { TypeEstablishmentModule } from './type_establishment/type_establishment.module';
 import * as dotenv from "dotenv";
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { EmailServerModule } from './email-server/email-server.module';
 
 dotenv.config();
 
@@ -33,6 +36,27 @@ dotenv.config();
       database: process.env.DB_NAME,
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
+    }),
+    MailerModule.forRoot({
+      transport: {
+        host: String(process.env.MAIL_HOST),
+        port: Number(process.env.MAIL_PORT),
+        secure: false,
+        auth: {
+          user: process.env.MAIL_USER,
+          pass: process.env.MAIL_PASS,
+        },
+      },
+      // defaults: {
+      //   from: '"nest-modules" <modules@nestjs.com>',
+      // },
+      template: {
+        dir: __dirname + '/templates',
+        adapter: new PugAdapter(),
+        options: {
+          strict: true,
+        },
+      },
     }),
     UserModule,
     RoleModule,
@@ -50,6 +74,7 @@ dotenv.config();
     PaymentVehicleModule,
     UserRoleModule,
     TypeEstablishmentModule,
+    EmailServerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

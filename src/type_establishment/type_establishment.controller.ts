@@ -5,10 +5,10 @@ import { AddTypeEstablishmentDto } from './dto/addTypeEstablishment.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('type-establishment')
+@ApiTags('api/type-establishment')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-@Controller('type-establishment')
+@Controller('api/type-establishment')
 export class TypeEstablishmentController {
     constructor(
         private typeEstablishmentService: TypeEstablishmentService

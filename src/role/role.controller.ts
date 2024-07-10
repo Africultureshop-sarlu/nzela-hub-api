@@ -6,9 +6,9 @@ import { UpdateRoleDto } from './dto/updateRole.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
 
-@ApiTags('role')
+@ApiTags('api/role')
 @UseGuards(AuthGuard)
-@Controller('role')
+@Controller('api/role')
 export class RoleController {
     constructor( private readonly roleService: RoleService){}
 
