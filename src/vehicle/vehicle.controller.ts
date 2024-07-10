@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/jwt/auth.guard';
@@ -7,12 +8,12 @@ import { AuthGuard } from 'src/jwt/auth.guard';
 @ApiBearerAuth()
 @Controller('api/vehicle')
 export class VehicleController {
-
-    @Get()
-    async getVehicle(): Promise<any>{
-        return {
-            "message": "Vehicle",
-            "data": []
-        }
-    }
+    
+  @Get()
+  async getVehicle(): Promise<any> {
+    return {
+      message: 'Vehicle',
+      data: [],
+    };
+  }
 }

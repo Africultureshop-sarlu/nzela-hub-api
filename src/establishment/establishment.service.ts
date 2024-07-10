@@ -89,6 +89,7 @@ export class EstablishmentService {
 
       user.firstname = name_establishment;
       user.lastname = name_establishment;
+      user.wallet = 0;
       user.email = email;
       user.salt = await bcrypt.genSalt();
       user.password = await bcrypt.hash(name_establishment, user.salt);
@@ -117,7 +118,8 @@ export class EstablishmentService {
       establishment.latitude = latitude;
       establishment.longitude = longitude;
       establishment.email = email;
-      establishment.user = userCreated;      
+      establishment.user = userCreated;
+      establishment.workers = JSON.parse(userCreated.id.toString())
 
       // const establishmentCreated = await this.establishmentRespository.save(establishment);
 
@@ -130,7 +132,7 @@ export class EstablishmentService {
 
       return establishmentCreated;
     } catch (error) {
-      throw new NotFoundException('Request failed, please try again');
+      throw new NotFoundException('Request failed, please try again', error);
     }
   }
 

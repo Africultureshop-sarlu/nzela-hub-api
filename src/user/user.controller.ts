@@ -1,7 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
-import { UserEntity } from './entities/user.entity/user.entity';
 import { UserService } from './user.service';
-import { ApiBearerAuth, ApiHeaders, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AddUserDto } from './dto/addUser.dto';
 import { Response } from 'express';
 import { LoginCredentialsDto } from './dto/login_credentials.dto';

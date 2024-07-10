@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { TimestampEntites } from 'src/generics/timestamp.entites';
 import {
   Entity,
@@ -59,18 +60,29 @@ export class EstablishmentEntity extends TimestampEntites {
   @Column({ nullable: true, type: 'json' })
   settings: JSON;
 
-  @ManyToOne(() => TownshipEntity, (township) => township.establishments, { nullable: false })
+  @Column({ nullable: true, type: 'json' })
+  workers: JSON;
+
+  @ManyToOne(() => TownshipEntity, (township) => township.establishments, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'township_id' })
   township: TownshipEntity;
 
   @OneToOne(() => UserEntity, (user) => user.id, { nullable: false })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity
+  user: UserEntity;
 
-  @ManyToOne(() => TypeEstablishmentEntity, (type_establishment) => type_establishment.establishments, { nullable: false})
+  @ManyToOne(
+    () => TypeEstablishmentEntity,
+    (type_establishment) => type_establishment.establishments,
+    { nullable: false },
+  )
   @JoinColumn({ name: 'type_establishment_id' })
   type_establishment: TypeEstablishmentEntity;
 
-  @OneToMany(() => RoomEntity, (room) => room.establishment, { nullable: false})
+  @OneToMany(() => RoomEntity, (room) => room.establishment, {
+    nullable: false,
+  })
   rooms: RoomEntity[];
 }
