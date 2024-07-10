@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
@@ -49,7 +50,7 @@ export class UserService {
         await queryRunner.startTransaction();
 
         try {
-            const { username, firstname, middlename, lastname, birthdate, email, password, paiment_informations , role_id,  } = addUserDto;
+            const { role_id,  } = addUserDto;
 
             const roleFound = await queryRunner.manager.findOne(RoleEntity, {
                 where: {
@@ -135,5 +136,5 @@ export class UserService {
             throw new NotFoundException(`The username or password is not correct`);
         }
     }
-
+ 
 }

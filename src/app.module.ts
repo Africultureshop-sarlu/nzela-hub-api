@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -18,7 +19,7 @@ import { PaymentRoomModule } from './payment_room/payment_room.module';
 import { PaymentVehicleModule } from './payment_vehicle/payment_vehicle.module';
 import { UserRoleModule } from './user_role/user_role.module';
 import { TypeEstablishmentModule } from './type_establishment/type_establishment.module';
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { EmailServerModule } from './email-server/email-server.module';
@@ -34,7 +35,7 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: ["dist/**/*.entity{.ts,.js}"],
+      entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     MailerModule.forRoot({

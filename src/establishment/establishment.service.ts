@@ -10,6 +10,9 @@ import { UserEntity } from 'src/user/entities/user.entity/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
 import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
+import { AddRoomDto } from 'src/room/dto/addRoom.dto';
+import { TypeRoomEntity } from 'src/type_room/entities/type_room.entity/type_room.entity';
+import { RoomEntity } from 'src/room/entities/room.entity/room.entity';
 
 @Injectable()
 export class EstablishmentService {
@@ -22,6 +25,9 @@ export class EstablishmentService {
 
     @InjectRepository(TypeEstablishmentEntity)
     private readonly typeEstablishmentRespository: Repository<TypeEstablishmentEntity>,
+
+    @InjectRepository(UserEntity)
+    private readonly userRespository: Repository<UserEntity>,
 
     private readonly dataSource: DataSource,
   ) {}
@@ -119,9 +125,7 @@ export class EstablishmentService {
       establishment.longitude = longitude;
       establishment.email = email;
       establishment.user = userCreated;
-      establishment.workers = JSON.parse(userCreated.id.toString())
-
-      // const establishmentCreated = await this.establishmentRespository.save(establishment);
+      establishment.workers = JSON.parse(userCreated.id.toString());
 
       const establishmentCreated = await queryRunner.manager.save(
         EstablishmentEntity,
@@ -146,5 +150,65 @@ export class EstablishmentService {
       },
     });
     return dataEstablishment;
+  }
+
+  async createRooms(roomDto: AddRoomDto, req: any): Promise<any> {
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    const establishment = await this.establishmentRespository.findOne({
+      relations : {
+        user: true,
+      },
+      where: {
+        user : {
+          uuid: req.user.uuid,
+        }
+      }
+    });
+
+    if(! establishment) {
+      throw new NotFoundException("Your account has not been establishment")
+    }
+
+    try {
+        const  { name_room, description_room, price_per_night, type_room_id, advantage, pictures } = roomDto;
+
+        const typeRoom = await queryRunner.manager.findOne(TypeRoomEntity, {
+            where: {
+                uuid: type_room_id,
+            }
+        });
+
+        if(! typeRoom){
+            await queryRunner.rollbackTransaction();
+            throw new NotFoundException(`The type of room with id ${type_room_id} is not found`);
+        }
+
+        const room = new RoomEntity();
+
+        room.name_room = name_room;
+        room.description_room = description_room;
+        room.price_per_night = price_per_night;
+        room.advantage = advantage;
+        room.pictures = pictures;
+        room.type_room = typeRoom;
+        room.establishment = establishment;
+
+        const roomCreated = queryRunner.manager.save(RoomEntity, room);
+        
+        await queryRunner.commitTransaction();
+
+        return roomCreated;
+
+    } catch (error) {
+        await queryRunner.rollbackTransaction();
+        throw new NotFoundException(`Request failed: ${error.message}`);
+    } finally {
+        await queryRunner.release();
+    }
   }
 }

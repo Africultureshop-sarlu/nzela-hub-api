@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/jwt/auth.guard';
 import { Response } from 'express';
 import { RoomService } from './room.service';
 import { AddRoomDto } from './dto/addRoom.dto';
+import { AuthSupport } from 'src/jwt/auth.support';
 
 @ApiTags('api/room')
 @UseGuards(AuthGuard)
@@ -14,6 +15,7 @@ export class RoomController {
         private readonly roomService: RoomService,
     ){}
 
+    @UseGuards(AuthSupport)
     @Get("/:establishment_id")
     async getRoomsByEstablishment(
         @Param("establishment_id") establishment_id: string,
