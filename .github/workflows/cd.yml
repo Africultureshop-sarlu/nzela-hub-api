@@ -27,8 +27,22 @@ jobs:
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: us-west-1 # Remplacez par votre région AWS
 
+      # - name: Run Docker Container
+      #   run: sudo docker run -d -p 8080:8080 --name nzela-hub-api-container hobed24/nzela-hub-api:0.0.1
+
       - name: Run Docker Container
-        run: sudo docker run -d -p 8080:8080 --name nzela-hub-api-container hobed24/nzela-hub-api:0.0.1
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_HOST: host.docker.internal
+        run: sudo docker run -d -p 8080:8080 \
+              --name nzela-hub-api-container \
+              -e DB_USERNAME=$DB_USERNAME \
+              -e DB_PASSWORD=$DB_PASSWORD \
+              -e DB_NAME=$DB_NAME \
+              -e DB_HOST=$DB_HOST \
+              hobed24/nzela-hub-api:0.0.1
 
       # - name: Set up kubectl
       #   uses: azure/setup-kubectl@v1
