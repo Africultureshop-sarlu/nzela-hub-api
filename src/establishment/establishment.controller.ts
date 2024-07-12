@@ -66,11 +66,19 @@ export class EstablishmentController {
     }
   }
 
+  @Get()
+  async getEstablishmentByName(
+    @Param('nameEstablishment') nameEstablishment: string,
+
+  ){
+
+  }
+
   @Post()
   async createEstablishments(
     @Body() addEstablishmentDto: AddEstablishmentDto,
     @Res() res: Response,
-    @Req() req: Request,
+    // @Req() req: Request,
   ): Promise<any> {
     try {
       const establishment =
