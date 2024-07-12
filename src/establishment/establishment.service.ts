@@ -135,6 +135,7 @@ export class EstablishmentService {
       await queryRunner.commitTransaction();
 
       return establishmentCreated;
+      
     } catch (error) {
       throw new NotFoundException('Request failed, please try again', error);
     }
