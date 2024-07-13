@@ -46,7 +46,7 @@ jobs:
               -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -e DB_NAME=${{ secrets.DB_NAME }} \
-              -e DB_HOST=<IP address of host> \
+              -e DB_HOST=${{ secrets.DB_HOST_IP }}  \
               hobed24/nzela-hub-api:0.0.1
 
       # - name: Set up kubectl
