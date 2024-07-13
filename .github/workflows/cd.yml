@@ -30,8 +30,8 @@ jobs:
       # - name: Run Docker Container
       #   run: sudo docker run -d -p 8080:8080 --name nzela-hub-api-container hobed24/nzela-hub-api:0.0.1
 
-      - name: Run Docker Container
-        run: echo "DB_USERNAME=${{ secrets.DB_USERNAME }}, DB_PASSWORD=${{ secrets.DB_PASSWORD }}, DB_NAME=${{ secrets.DB_NAME }}, DB_HOST=${{ secrets.DB_HOST_IP }}"
+      # - name: Run Docker Container
+      #   run: echo "DB_USERNAME={{ secrets.DB_USERNAME }}, DB_PASSWORD={{ secrets.DB_PASSWORD }}, DB_NAME={{ secrets.DB_NAME }}, DB_HOST={{ secrets.DB_HOST_IP }}"
         # env:
         #   DB_USERNAME: {{ secrets.DB_USERNAME }}
         #   DB_PASSWORD: {{ secrets.DB_PASSWORD }}
@@ -42,10 +42,11 @@ jobs:
         run: |
             sudo docker run -d -p 8080:8080 \
             --name nzela-hub-api-container \
+            --network nzela-hub-network \
               -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -e DB_NAME=${{ secrets.DB_NAME }} \
-              -e DB_HOST=${{ secrets.DB_HOST_IP }} \
+              -e DB_HOST=<IP address of host> \
               hobed24/nzela-hub-api:0.0.1
 
       # - name: Set up kubectl
