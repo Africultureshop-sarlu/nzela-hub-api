@@ -58,9 +58,10 @@ export class SeedingService {
 
       await roleRepository.save([adminRole, supportRole, managerRole, customerRole, supportEstablishmentRole]);
 
+      const userSalt = await bcrypt.genSalt();
       const adminUser = userRepository.create({
         username: process.env.ADMIN_MAIL,
-        password: await bcrypt.hash(process.env.ADMIN_PASSWORD),
+        password: await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt),
         email: process.env.ADMIN_MAIL,
         firstname: 'hobed',
         lastname: 'bayekula',
