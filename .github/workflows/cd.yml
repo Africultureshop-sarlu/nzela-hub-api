@@ -20,6 +20,13 @@ jobs:
       - name: Delete old docker container
         run: sudo docker rm -f nzela-hub-api-container || true 
 
+      - name: Delete old docker images
+        run: |
+          # List all images except the newly pulled one and delete them
+          old_images=$(sudo docker images hobed24/nzela-hub-api --format '{{.Repository}}:{{.Tag}}' | grep -v '0.0.1')
+          if [ ! -z "$old_images" ]; then
+            sudo docker rmi $old_images || true
+
       # - name: Configure AWS credentials
       #   uses: aws-actions/configure-aws-credentials@v1
       #   with:
@@ -47,6 +54,9 @@ jobs:
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -e DB_NAME=${{ secrets.DB_NAME }} \
               -e DB_HOST=${{ secrets.DB_HOST_IP }}  \
+              -e ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}  \
+              -e ADMIN_MAIL=${{ secrets.ADMIN_MAIL }}  \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }}  \
               hobed24/nzela-hub-api:0.0.1
 
       # - name: Set up kubectl
