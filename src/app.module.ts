@@ -23,6 +23,7 @@ import * as dotenv from 'dotenv';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { EmailServerModule } from './email-server/email-server.module';
+import { SeedingModule } from './seeding/seeding.module';
 
 dotenv.config();
 
@@ -76,6 +77,7 @@ dotenv.config();
     UserRoleModule,
     TypeEstablishmentModule,
     EmailServerModule,
+    SeedingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

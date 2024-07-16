@@ -97,8 +97,8 @@ export class EstablishmentService {
       user.lastname = name_establishment;
       user.wallet = 0;
       user.email = email;
-      user.salt = await bcrypt.genSalt();
-      user.password = await bcrypt.hash(name_establishment, user.salt);
+      // user.salt = await bcrypt.genSalt();
+      user.password = await bcrypt.hash(name_establishment);
 
       const userCreated = await queryRunner.manager.save(UserEntity, user);
 

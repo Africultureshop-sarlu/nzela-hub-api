@@ -46,8 +46,8 @@ export class UserEntity extends TimestampEntites {
   @MinLength(8)
   password: string;
 
-  @Column({ nullable: false })
-  salt: string;
+  // @Column({ nullable: false })
+  // salt: string;
 
   @Column({ nullable: true, type: 'json' })
   paiment_informations: JSON;

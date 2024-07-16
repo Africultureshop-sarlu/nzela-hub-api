@@ -16,7 +16,7 @@ export class ProvincialEntity extends TimestampEntites {
     @Column({ nullable: false })
     provincial_name: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: true })
     description: string;
 
     @OneToMany(() => TownshipEntity, (townships) => townships.provincial, { nullable: false })

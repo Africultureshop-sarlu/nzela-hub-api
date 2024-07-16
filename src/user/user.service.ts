@@ -67,8 +67,8 @@ export class UserService {
                 });
 
                 user.wallet = 0;
-                user.salt = await bcrypt.genSalt();
-                user.password = await bcrypt.hash(user.password, user.salt);
+                // user.salt = await bcrypt.genSalt();
+                user.password = await bcrypt.hash(user.password);
 
                 const userCreated = await queryRunner.manager.save(UserEntity, user);
 
