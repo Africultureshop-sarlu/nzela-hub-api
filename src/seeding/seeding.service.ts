@@ -224,6 +224,10 @@ export class SeedingService {
 
       await typeEstablishmentRepository.save(typeEstablishmentCreated);
 
+      await queryRunner.commitTransaction();
+
+      return typeEstablishmentCreated;
+
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw new NotFoundException(`${error.message}`);

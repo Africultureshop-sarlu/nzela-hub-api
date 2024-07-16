@@ -6,7 +6,7 @@ import {
 import { SeedingService } from './seeding.service';
 // import { CreateSeedingDto } from './dto/create-seeding.dto';
 
-@Controller('seeding')
+@Controller('api/seeding')
 export class SeedingController {
   constructor(private readonly seedingService: SeedingService) {}
 
