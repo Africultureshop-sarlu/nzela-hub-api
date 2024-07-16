@@ -23,7 +23,7 @@ export class UserEntity extends TimestampEntites {
   @Column({ nullable: true })
   username: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   firstname: string;
 
   @Column({ nullable: true })
