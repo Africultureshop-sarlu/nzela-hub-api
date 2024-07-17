@@ -66,9 +66,9 @@ export class SeedingService {
         adminUser.username= process.env.ADMIN_MAIL;
         adminUser.password= await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
         adminUser.email= process.env.ADMIN_MAIL;
-        adminUser.firstname= "hobed";
-        adminUser.lastname= "bayekula";
-        adminUser.wallet= 0;
+        adminUser.firstname= adminRole.name_role;
+        adminUser.lastname= adminRole.name_role;
+        adminUser.wallet= adminRole.id - 1;
       // });
 
       await userRepository.save(adminUser);
