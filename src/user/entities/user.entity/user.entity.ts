@@ -23,19 +23,19 @@ export class UserEntity extends TimestampEntites {
   @Column({ nullable: true })
   username: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   firstname: string;
 
   @Column({ nullable: true })
   middlename: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   lastname: string;
 
   @Column({ nullable: true })
   birthdate: string;
 
-  @Column({ nullable: false, default: 0 })
+  @Column({ nullable: false })
   wallet: number;
 
   @IsEmail()

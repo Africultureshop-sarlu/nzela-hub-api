@@ -61,12 +61,17 @@ export class SeedingService {
       const userSalt = await bcrypt.genSalt();
       const adminUser = new UserEntity();
       
-      adminUser.username= process.env.ADMIN_MAIL;
-      adminUser.password= await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
-      adminUser.email= process.env.ADMIN_MAIL;
-      adminUser.firstname= "admin";
-      adminUser.lastname= "admin";
-      adminUser.wallet= 0;      
+      adminUser.username = process.env.ADMIN_MAIL;
+      adminUser.email = process.env.ADMIN_MAIL;
+      adminUser.password = await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
+
+      if (!adminUser.email || !adminUser.password) {
+        throw new Error('ADMIN_MAIL and ADMIN_PASSWORD must be defined in environment variables');
+      }
+      
+      adminUser.firstname = "admin";
+      adminUser.lastname = "admin";
+      adminUser.wallet = 0;      
 
       await userRepository.save(adminUser);
       const userRoleAdminCreated = userRoleRepository.create({
