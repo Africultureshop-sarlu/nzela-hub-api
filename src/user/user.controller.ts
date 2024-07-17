@@ -20,8 +20,8 @@ export class UserController {
     }
 
     @Post()
-    @UseGuards(AuthGuard)
-    @ApiBearerAuth()
+    // @UseGuards(AuthGuard)
+    // @ApiBearerAuth()
     async addUser(
         @Body() addUserDto: AddUserDto,
         @Res() res: Response
