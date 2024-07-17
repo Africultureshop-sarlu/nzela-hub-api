@@ -58,27 +58,27 @@ export class SeedingService {
 
       await roleRepository.save([adminRole, supportRole, managerRole, customerRole, supportEstablishmentRole]);
 
-      const userSalt = await bcrypt.genSalt();
-      const adminUser = new UserEntity();
+      // const userSalt = await bcrypt.genSalt();
+      // const adminUser = new UserEntity();
       
-      adminUser.username = process.env.ADMIN_MAIL;
-      adminUser.email = process.env.ADMIN_MAIL;
-      adminUser.password = await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
+      // adminUser.username = process.env.ADMIN_MAIL;
+      // adminUser.email = process.env.ADMIN_MAIL;
+      // adminUser.password = await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
 
-      if (!adminUser.email || !adminUser.password) {
-        throw new Error('ADMIN_MAIL and ADMIN_PASSWORD must be defined in environment variables');
-      }
+      // if (!adminUser.email || !adminUser.password) {
+      //   throw new Error('ADMIN_MAIL and ADMIN_PASSWORD must be defined in environment variables');
+      // }
       
-      adminUser.firstname = "admin";
-      adminUser.lastname = "admin";
-      adminUser.wallet = 0;      
+      // adminUser.firstname = "admin";
+      // adminUser.lastname = "admin";
+      // adminUser.wallet = 0;      
 
-      await userRepository.save(adminUser);
-      const userRoleAdminCreated = userRoleRepository.create({
-        user: adminUser,
-        role: adminRole,
-      })
-      await userRepository.save(userRoleAdminCreated);
+      // await userRepository.save(adminUser);
+      // const userRoleAdminCreated = userRoleRepository.create({
+      //   user: adminUser,
+      //   role: adminRole,
+      // })
+      // await userRepository.save(userRoleAdminCreated);
 
       const rdcCountry = countryRepository.create({
         name_country: "République démocratique du Congo",
