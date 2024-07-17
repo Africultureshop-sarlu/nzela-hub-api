@@ -60,16 +60,13 @@ export class SeedingService {
 
       const userSalt = await bcrypt.genSalt();
       const adminUser = new UserEntity();
-
-      // user.
-      // const adminUser = userRepository.create({
-        adminUser.username= process.env.ADMIN_MAIL;
-        adminUser.password= await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
-        adminUser.email= process.env.ADMIN_MAIL;
-        adminUser.firstname= adminRole.name_role;
-        adminUser.lastname= adminRole.name_role;
-        adminUser.wallet= adminRole.id - 1;
-      // });
+      
+      adminUser.username= process.env.ADMIN_MAIL;
+      adminUser.password= await bcrypt.hash(process.env.ADMIN_PASSWORD, userSalt);
+      adminUser.email= process.env.ADMIN_MAIL;
+      adminUser.firstname= "admin";
+      adminUser.lastname= "admin";
+      adminUser.wallet= 0;      
 
       await userRepository.save(adminUser);
       const userRoleAdminCreated = userRoleRepository.create({
