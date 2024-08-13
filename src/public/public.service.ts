@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { DataSource, LessThanOrEqual } from 'typeorm';
 import { EstablishmentEntity } from 'src/establishment/entities/establishment.entity/establishment.entity';
 import { RoomEntity } from 'src/room/entities/room.entity/room.entity';
+import { ProvincialEntity } from 'src/provincial/entities/provincial.entity/provincial.entity';
 
 @Injectable()
 export class PublicService {
@@ -65,6 +66,75 @@ export class PublicService {
         "establishments": establishments,
         "pages" : parseInt(page) + 1,
       }
+      
+    } catch (error) {
+      throw new NotFoundException(error.message);      
+    }
+  }
+
+  async findProvincials(): Promise<any> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    const provincialRepository = queryRunner.manager.getRepository(ProvincialEntity);
+    try {
+
+      const provincials: ProvincialEntity[] = await provincialRepository.find({
+        order: {
+          id: "DESC",
+        },
+        relations: {
+          townships: true,
+        }
+      })
+
+      return provincials;
+      
+    } catch (error) {
+      throw new NotFoundException(error.message);      
+    }
+  }
+
+  async findProvincial(uuid: string): Promise<any> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    const provincialRepository = queryRunner.manager.getRepository(ProvincialEntity);
+    try {
+
+      const provincial: ProvincialEntity = await provincialRepository.findOne({
+        order: {
+          id: "DESC",
+        },
+        relations: {
+          townships: true,
+        },
+        where: {
+          uuid
+        }
+      })
+
+      return provincial;
+      
+    } catch (error) {
+      throw new NotFoundException(error.message);      
+    }
+  }
+
+  async findProvincialByName(name_provincial: string): Promise<any> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    const provincialRepository = queryRunner.manager.getRepository(ProvincialEntity);
+    try {
+
+      const provincial: ProvincialEntity = await provincialRepository.findOne({
+        order: {
+          id: "DESC",
+        },
+        relations: {
+          townships: true,
+        },
+        where: {
+          provincial_name: name_provincial,
+        }
+      })
+
+      return provincial;
       
     } catch (error) {
       throw new NotFoundException(error.message);      
@@ -134,6 +204,59 @@ export class PublicService {
       });
 
       return rooms;
+      
+    } catch (error) {
+      throw new NotFoundException(error.message);      
+    }
+  }
+
+  async findRoomsByFilter(filter: any) {
+    
+    const queryRunner = this.dataSource.createQueryRunner();
+    // const establishmentRepository = queryRunner.manager.getRepository(EstablishmentEntity);
+    const roomRepository = queryRunner.manager.getRepository(RoomEntity);
+
+    try {
+
+      const rooms = await roomRepository.find({
+
+        relations: {
+          establishment: {
+            township: {
+              provincial: {
+                country: true,
+              }
+            }
+          } 
+        },
+        where: {
+          price_per_night: LessThanOrEqual(filter.price)
+        }
+      });
+      return rooms;
+      // const establishment = await establishmentRepository.findOne({
+      //   where: {
+      //     uuid: uuid,
+      //   }
+      // });
+
+      // if( ! establishment) {        
+      //   throw new NotFoundException(`This establishment does not exist`); 
+      // }
+
+      // const rooms = await roomRepository.find({
+      //   relations: {
+      //     type_room: true,
+      //     establishment: true,
+      //   },
+      //   where: {          
+      //     establishment: {
+      //        uuid: establishment.uuid,
+      //     },
+      //   }
+      // });
+
+      // return rooms;
       
     } catch (error) {
       throw new NotFoundException(error.message);      

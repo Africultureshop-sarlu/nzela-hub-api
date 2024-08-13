@@ -5,6 +5,8 @@ import {
   Param,
   Res,
   HttpStatus,
+  Post,
+  Body,
 } from '@nestjs/common';
 import { PublicService } from './public.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -45,6 +47,68 @@ export class PublicController {
         message: 'Establishments has not been received, please try again',
         data: [],
         error: error,
+      });
+    }   
+  }
+
+  @Get('/provincial')
+  async findAllProvincial(
+    @Res() res: Response,
+  ): Promise<any> {
+    try {
+      const provincials = await this.publicService.findProvincials();
+
+      return res.status(HttpStatus.OK).json({
+        message: 'Provincials received with successfully',
+        data: provincials,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Provincials are not been received, please try again',
+        data: [],
+        error: error.message,
+      });
+    }   
+  }
+
+  @Get('/provincial/:uuid')
+  async findProvincial(
+    @Res() res: Response,
+    @Param('uuid') uuid: string,
+  ): Promise<any> {
+    try {
+      const provincial = await this.publicService.findProvincial(uuid);
+
+      return res.status(HttpStatus.OK).json({
+        message: 'Provincial received with successfully',
+        data: provincial,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Provincial has not been received, please try again',
+        data: [],
+        error: error.message,
+      });
+    }   
+  }
+
+  @Get('/provincial/name/:name_provincial')
+  async findProvincialByName(
+    @Res() res: Response,
+    @Param('name_provincial') name_provincial: string,
+  ): Promise<any> {
+    try {
+      const provincial = await this.publicService.findProvincialByName(name_provincial);
+
+      return res.status(HttpStatus.OK).json({
+        message: 'Provincial received with successfully',
+        data: provincial,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Provincial has not been received, please try again',
+        data: [],
+        error: error.message,
       });
     }   
   }
@@ -90,7 +154,7 @@ export class PublicController {
       });
     }   
   }
-
+  
   @Get('establishment/room/:id_room')
   async findOneRoom(
     @Param('id_room') uuid: string,
@@ -111,6 +175,28 @@ export class PublicController {
       });
     }   
   }
+
+  @Post('/rooms')
+  async findRoomsFilter(
+    @Body() filter: any,
+    @Res() res: Response,
+  ): Promise<any> {
+    try {
+      const rooms = await this.publicService.findRoomsByFilter(filter);
+
+      return res.status(HttpStatus.OK).json({
+        message: 'Rooms received with successfully',
+        data: rooms,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Rooms has not been received, please try again',
+        data: [],
+        error: error,
+      });
+    }   
+  }
+
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updatePublicDto: UpdatePublicDto) {
