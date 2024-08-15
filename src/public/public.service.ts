@@ -223,7 +223,6 @@ export class PublicService {
         .leftJoinAndSelect('room.establishment', 'establishment')
         .leftJoinAndSelect('establishment.township', 'township')
         .leftJoinAndSelect('township.provincial', 'provincial');
-        // .leftJoinAndSelect('room.booking_room', 'booking_room');
 
       if (filter.type) {
         query.andWhere('room.type_room.name_type_room = :type', { type: filter.type });
@@ -251,70 +250,7 @@ export class PublicService {
 
       const rooms = await query.getMany();
 
-
-      // const whereConditions: any = {};
-
-      // if (filter.type) {
-      //   whereConditions.type = filter.type;
-      // }
-
-      // if (filter.provincial) {
-      //   whereConditions['establishment.township.provincial'] = filter.provincial;
-      // }
-
-      // if (filter.townships && filter.townships.length > 0) {
-      //   whereConditions['establishment.township'] = In(filter.townships);
-      // }
-
-      // if (filter.priceMin && filter.priceMax) {
-      //   whereConditions.price_per_night = Between(filter.priceMin, filter.priceMax);
-      // }
-
-      // if (filter.dateStart && filter.dateEnd) {
-      //   whereConditions.availability_date = Between(filter.dateStart, filter.dateEnd);
-      // }
-
-      // const rooms = await roomRepository.find({
-
-      //   relations: {
-      //     establishment: {
-      //       township: {
-      //         provincial: {
-      //           country: true,
-      //         }
-      //       }
-      //     } 
-      //   },
-      //   // where: {
-      //   //   price_per_night: LessThanOrEqual(filter.price)
-      //   // }
-      //   where: whereConditions,
-      // });
-
         return rooms;
-      // const establishment = await establishmentRepository.findOne({
-      //   where: {
-      //     uuid: uuid,
-      //   }
-      // });
-
-      // if( ! establishment) {        
-      //   throw new NotFoundException(`This establishment does not exist`); 
-      // }
-
-      // const rooms = await roomRepository.find({
-      //   relations: {
-      //     type_room: true,
-      //     establishment: true,
-      //   },
-      //   where: {          
-      //     establishment: {
-      //        uuid: establishment.uuid,
-      //     },
-      //   }
-      // });
-
-      // return rooms;
       
     } catch (error) {
       throw new NotFoundException(error.message);      
