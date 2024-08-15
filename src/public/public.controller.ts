@@ -11,6 +11,7 @@ import {
 import { PublicService } from './public.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { roomsFilterDto } from './dto/rooms-filter.dto';
 
 @ApiTags('api/public')
 @Controller('api/public')
@@ -176,9 +177,9 @@ export class PublicController {
     }   
   }
 
-  @Post('/rooms')
+  @Post('/rooms/filter')
   async findRoomsFilter(
-    @Body() filter: any,
+    @Body() filter: roomsFilterDto,
     @Res() res: Response,
   ): Promise<any> {
     try {
