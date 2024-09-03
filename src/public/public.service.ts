@@ -1,18 +1,27 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Between, DataSource, In, LessThanOrEqual } from 'typeorm';
+import { DataSource, Repository, } from 'typeorm';
 import { EstablishmentEntity } from 'src/establishment/entities/establishment.entity/establishment.entity';
 import { RoomEntity } from 'src/room/entities/room.entity/room.entity';
 import { ProvincialEntity } from 'src/provincial/entities/provincial.entity/provincial.entity';
+import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
+import { UserEntity } from 'src/user/entities/user.entity/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
+import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
+import { AddCustomerDto } from 'src/user/dto/addCustomer.dto';
 
 @Injectable()
 export class PublicService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
 
-  // create(createPublicDto: CreatePublicDto) {
-  //   return 'This action adds a new public';
-  // }
+    @InjectRepository(RoleEntity)
+    private roleRepository: Repository<RoleEntity>,
 
+    private readonly dataSource: DataSource) {}
+  
   async findAll() {
     const queryRunner = this.dataSource.createQueryRunner();
 
@@ -282,6 +291,72 @@ export class PublicService {
     } catch (error) {
       throw new NotFoundException(error.message);      
     }
+  }
+
+  async createUser(addUserDto: AddCustomerDto): Promise<any> {
+      
+      const queryRunner = this.dataSource.createQueryRunner();
+
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+
+      try {
+          // const { role_id,  } = addUserDto;
+
+          const roleFound = await queryRunner.manager.findOne(RoleEntity, {
+              where: {
+                name_role: 'customer',
+              },
+          });
+
+          if(! roleFound) {
+              return null;
+          }else {
+
+              const user = this.userRepository.create({
+                  ...addUserDto,
+              });
+
+              user.wallet = 0;
+              const salt = await bcrypt.genSalt();
+              user.password = await bcrypt.hash(user.password, salt);
+
+              const userCreated = await queryRunner.manager.save(UserEntity, user);
+
+              const role = new UserRoleEntity();
+              role.user = userCreated;
+              role.role = roleFound;
+
+              await queryRunner.manager.save(UserRoleEntity, role);
+
+              await queryRunner.commitTransaction();
+
+              return {
+                  "uuid" : userCreated.uuid,
+                  "username": userCreated.username,
+                  "firstname": userCreated.firstname,
+                  "middlename": userCreated.middlename,
+                  "lastname": userCreated.lastname,
+                  "email": userCreated.email,
+                  "wallet": userCreated.wallet,
+                  "birthdate": userCreated.birthdate,
+              };
+          }
+
+      } catch (error) {
+          await queryRunner.rollbackTransaction();
+          throw new NotFoundException("Request failed, please try again " + error);
+      } finally {
+          await queryRunner.release();
+      }
+  }
+
+  async getRoles(): Promise<any> {
+    return await this.roleRepository.find({
+        order: {
+            id: 'DESC',
+        },
+    });
   }
 
   // update(id: number, updatePublicDto: UpdatePublicDto) {

@@ -50,7 +50,7 @@ export class UserEntity extends TimestampEntites {
   // salt: string;
 
   @Column({ nullable: true, type: 'json' })
-  paiment_informations: JSON;
+  paiement_informations: JSON;
 
   @OneToMany(() => UserRoleEntity, (role) => role.user)
   user_roles: UserRoleEntity[];

@@ -28,7 +28,7 @@ export class UserService {
         return {
             message: 'Data received with successful',
             data: await this.userRepository.find({
-                select: ['uuid', 'birthdate', 'email', 'firstname', 'lastname', 'middlename', 'paiment_informations', 'wallet', 'username']
+                select: ['uuid', 'birthdate', 'email', 'firstname', 'lastname', 'middlename', 'paiement_informations', 'wallet', 'username']
             }),
         };
     }

@@ -7,11 +7,13 @@ import {
   HttpStatus,
   Post,
   Body,
+  BadRequestException,
 } from '@nestjs/common';
 import { PublicService } from './public.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { roomsFilterDto } from './dto/rooms-filter.dto';
+import { AddCustomerDto } from 'src/user/dto/addCustomer.dto';
 
 @ApiTags('api/public')
 @Controller('api/public')
@@ -198,6 +200,42 @@ export class PublicController {
     }   
   }
 
+  @Post('/create/user')
+  async addUser(
+    @Body() customerDto: AddCustomerDto,
+    @Res() res: Response
+  ): Promise<any> {
+      try {
+          const userCreated = await this.publicService.createUser(customerDto);
+
+          return res.status(HttpStatus.OK).json({
+              "message" : "User created with successfully",
+              "data" : userCreated,
+          });
+      } catch (error) {
+          return res.status(HttpStatus.NOT_FOUND).json({
+              "message" : "User has not been created",
+              "data" : [],
+              "error" : error,
+          });
+      }
+  }
+
+  @Get('/roles')
+  async getAllRole(
+      @Res() res: Response, 
+  ): Promise<any> {
+      try {
+          const roles = await this.publicService.getRoles();
+
+          return res.status(HttpStatus.OK).json({
+              "message" : "Role receveid with successfully",
+              "data" : roles,
+          });
+      } catch (error) {
+          new BadRequestException();
+      }
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updatePublicDto: UpdatePublicDto) {

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsDate, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
-export class AddUserDto {
+export class AddCustomerDto {
   @ApiProperty({
-    required: true,
+    required: false,
   })
-  @IsNotEmpty({
+  @IsOptional({
     message: 'The username is required',
   })
   username: string;
@@ -29,9 +29,10 @@ export class AddUserDto {
   lastname: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
-  @IsNotEmpty({
+  @IsDate()
+  @IsOptional({
     message: 'The birthdate is required',
   })
   birthdate: string;
@@ -59,13 +60,4 @@ export class AddUserDto {
   })
   @IsOptional()
   paiement_informations: JSON;
-
-  @ApiProperty({
-    required: true,
-    type: 'string',
-  })
-  @IsNotEmpty({
-    message: 'The role id is required',
-  })
-  role_id: string;
 }

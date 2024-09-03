@@ -7,6 +7,9 @@ import { EstablishmentEntity } from 'src/establishment/entities/establishment.en
 import { CountryEntity } from 'src/country/entities/country.entity/country.entity';
 import { ProvincialEntity } from 'src/provincial/entities/provincial.entity/provincial.entity';
 import { TownshipEntity } from 'src/township/entities/township.entity/township.entity';
+import { UserEntity } from 'src/user/entities/user.entity/user.entity';
+import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
+import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
 
 @Module({
   imports: [
@@ -15,6 +18,9 @@ import { TownshipEntity } from 'src/township/entities/township.entity/township.e
       CountryEntity,
       ProvincialEntity,
       TownshipEntity,
+      UserEntity,
+      RoleEntity,
+      UserRoleEntity,
     ]),
   ],
   controllers: [PublicController],
