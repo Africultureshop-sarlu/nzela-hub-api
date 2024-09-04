@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { RoleController } from './role.controller';
 import { RoleService } from './role.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,8 +17,8 @@ import { AddroleMiddleware } from 'src/middlewares/addrole.middleware/addrole.mi
 })
 export class RoleModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AddroleMiddleware).forRoutes(
-      { path: 'role', method: RequestMethod.POST }
-    );
+    consumer
+      .apply(AddroleMiddleware)
+      .forRoutes({ path: 'role', method: RequestMethod.POST });
   }
 }

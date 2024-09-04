@@ -1,12 +1,13 @@
 import { PaymentRoomEntity } from 'src/payment_room/entities/payment_room.entity/payment_room.entity';
 import { RoomEntity } from 'src/room/entities/room.entity/room.entity';
+import { UserEntity } from 'src/user/entities/user.entity/user.entity';
 import {
   Column,
   Entity,
   Generated,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -37,7 +38,13 @@ export class BookingRoomEntity {
   })
   room: RoomEntity;
 
-  @ManyToOne(
+  @ManyToOne(() => UserEntity, (user) => user.uuid)
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user: UserEntity;
+
+  @OneToMany(
     () => PaymentRoomEntity,
     (payment_room) => payment_room.booking_room,
   )
