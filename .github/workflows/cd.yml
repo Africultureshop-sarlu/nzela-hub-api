@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Docker Container
         run: |
-            sudo docker run -d -p 8300:8300 \
+            sudo docker run -d -p 8080:8300 \
             --name nzela-hub-api-container \
             --network nzela-hub-network \
               -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
