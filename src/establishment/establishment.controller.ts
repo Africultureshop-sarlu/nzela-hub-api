@@ -19,8 +19,8 @@ import { AuthGuard } from 'src/jwt/auth.guard';
 import { AddRoomDto } from 'src/room/dto/addRoom.dto';
 
 @ApiTags('api/establishments')
-@UseGuards(AuthGuard)
-@ApiBearerAuth()
+// @UseGuards(AuthGuard)
+// @ApiBearerAuth()
 @Controller('api/establishments')
 export class EstablishmentController {
   constructor(private readonly establishmentService: EstablishmentService) {}
@@ -28,10 +28,10 @@ export class EstablishmentController {
   @Get()
   async getEstablishments(
     @Res() res: Response,
-    @Req() req: Request,
+    // @Req() req: Request,
   ): Promise<any> {
     try {
-      const user = req['user'];
+      // const user = req['user'];
 
       const establishments =
         await this.establishmentService.getEstablishments();
@@ -48,11 +48,11 @@ export class EstablishmentController {
   @Get(':id')
   async getEstablishment(
     @Res() res: Response,
-    @Req() req: Request,
+    // @Req() req: Request,
     @Param('id') id: string,
   ): Promise<any> {
     try {
-      const user = req['user'];
+      // const user = req['user'];
 
       const establishment =
         await this.establishmentService.getEstablishment(id);
@@ -68,8 +68,7 @@ export class EstablishmentController {
 
   @Get()
   async getEstablishmentByName(
-    @Param('nameEstablishment') nameEstablishment: string,
-
+    // @Param('nameEstablishment') nameEstablishment: string,
   ){
 
   }
@@ -85,6 +84,28 @@ export class EstablishmentController {
         await this.establishmentService.createEstablishments(
           addEstablishmentDto,
         );
+
+      return res.status(HttpStatus.OK).json({
+        message: 'Establishments created with successfully',
+        data: establishment,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Establishments has not been created',
+        data: [],
+        error: error,
+      });
+    }
+  }
+
+  @Post('seeding')
+  async seedingEstablishments(
+    @Res() res: Response,
+    @Req() req: Request, 
+  ): Promise<any> {
+    try {
+      const establishment =
+        await this.establishmentService.seedingEstablishments();
 
       return res.status(HttpStatus.OK).json({
         message: 'Establishments created with successfully',

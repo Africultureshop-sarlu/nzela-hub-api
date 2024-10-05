@@ -29,6 +29,17 @@ export class EstablishmentService {
     @InjectRepository(UserEntity)
     private readonly userRespository: Repository<UserEntity>,
 
+    @InjectRepository(TypeRoomEntity)
+    private readonly typeRoomRepository: Repository<TypeRoomEntity>,
+    @InjectRepository(RoomEntity)
+    private readonly roomRepository: Repository<RoomEntity>,
+    @InjectRepository(TypeEstablishmentEntity)
+    private readonly typeEstablishmentRepository: Repository<TypeEstablishmentEntity>,
+    @InjectRepository(TownshipEntity)
+    private readonly townshipRepository: Repository<TownshipEntity>,
+    @InjectRepository(UserRoleEntity)
+    private readonly userRoleRepository: Repository<UserRoleEntity>,
+
     private readonly dataSource: DataSource,
   ) {}
 
@@ -68,7 +79,7 @@ export class EstablishmentService {
       const townshipFound: TownshipEntity =
         await this.townshipRespository.findOne({
           relations: {
-            provincial: true,
+            city: true,
           },
           where: {
             uuid: township_id,
@@ -97,7 +108,6 @@ export class EstablishmentService {
       user.lastname = name_establishment;
       user.wallet = 0;
       user.email = email;
-      // user.salt = await bcrypt.genSalt();
       user.password = await bcrypt.hash(name_establishment);
 
       const userCreated = await queryRunner.manager.save(UserEntity, user);
@@ -114,7 +124,7 @@ export class EstablishmentService {
       establishment.type_establishment = typeEstablishmentFound;
       establishment.name_establishment = name_establishment;
       establishment.address = address;
-      establishment.city = townshipFound.provincial.provincial_name;
+      // establishment.city = townshipFound.city.provincial_name;
       establishment.applicable_tax = applicable_tax;
       establishment.percentage_applicable_tax = percentage_applicable_tax;
       establishment.phone = phone;
@@ -135,6 +145,110 @@ export class EstablishmentService {
       await queryRunner.commitTransaction();
 
       return establishmentCreated;
+      
+    } catch (error) {
+      throw new NotFoundException('Request failed, please try again', error);
+    }
+  }
+  
+  async seedingEstablishments(): Promise<any> {
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const roomSimple = await this.typeRoomRepository.findOne({ where: { name_type_room: 'Chambre simple'}});
+      const roomStandard = await this.typeRoomRepository.findOne({ where: { name_type_room: 'Chambre double standard'}});
+      const roomLuxe = await this.typeRoomRepository.findOne({ where: { name_type_room: '"Chambre double de luxe'}});
+
+      const zeroStart = await this.typeEstablishmentRepository.findOne({ where: { name_type_establishment: 0 }});
+      const oneStart = await this.typeEstablishmentRepository.findOne({ where: { name_type_establishment: 1 }});
+      const twoStart = await this.typeEstablishmentRepository.findOne({ where: { name_type_establishment: 2 }});
+      const threeStart = await this.typeEstablishmentRepository.findOne({ where: { name_type_establishment: 3 }});
+
+      const LingwalaTownship = await this.townshipRepository.findOne({ where: { township_name: "lingwala"}});
+      const gombeTownship =  await this.townshipRepository.findOne({ where: { township_name: "gombe" }});
+      const limeteTownship = await this.townshipRepository.findOne({ where: { township_name: "limete" }});
+      const tshelaTownship = await this.townshipRepository.findOne({ where: { township_name: "Tshela"} });
+      const gombeMatadiTownship = await this.townshipRepository.findOne({ where: { township_name: "Gombe - Matadi" }});
+      const kwengeTownship = await this.townshipRepository.findOne({ where: { township_name: "Kwenge" }});
+      const kwiluTownship = await this.townshipRepository.findOne({ where: { township_name: "Kwilu" }});
+
+      const townships = [
+        LingwalaTownship,
+        gombeTownship,
+        limeteTownship,
+        tshelaTownship,
+        gombeMatadiTownship,
+        kwengeTownship,
+        kwiluTownship,
+      ];
+      const establishmentTypes = [
+        zeroStart,
+        oneStart,
+        twoStart,
+        threeStart,
+      ];
+      const roomTypes = [
+        roomSimple,
+        roomStandard,
+        roomLuxe,
+      ];
+      const managerRole = await queryRunner.manager.findOne(RoleEntity, {
+        where: {
+          name_role: 'manager',
+        },
+      });
+
+      for (const township of townships) {
+        const townshipEntity = await this.townshipRepository.findOne({ where: { township_name: township.township_name } });
+    
+        for (const establishmentType of establishmentTypes) {
+          const typeEstablishment = await this.typeEstablishmentRepository.findOne({ where: { name_type_establishment: establishmentType.name_type_establishment } });
+    
+          const user = new UserEntity();
+          
+          user.lastname = `establishment${establishmentType.name_type_establishment}-${township.township_name}`;
+          user.firstname =`establishment${establishmentType.name_type_establishment}-${township.township_name}`;
+          user.wallet = 0;
+          user.email = `establishment${establishmentType.name_type_establishment}-${township.township_name}@gmail.com`;
+          user.password = await bcrypt.hash(`establishment${establishmentType.name_type_establishment}-${township.township_name}`, 10);
+
+          await queryRunner.manager.save(UserEntity, user);
+          const userRoleAdminCreated = this.userRoleRepository.create({
+            user: user,
+            role: managerRole,
+          })
+          await this.userRespository.save(userRoleAdminCreated);
+
+          const rooms = [];
+          for (const roomType of roomTypes) {
+            const typeRoom = await this.typeRoomRepository.findOne({ where: { name_type_room: roomType.name_type_room } });
+            const room = this.roomRepository.create({
+              name_room: `${roomType.name_type_room} - ${township.township_name}`,
+              price_per_night: Math.floor(Math.random() * 100) + 50,
+              advantage: JSON.parse('["internet", "swimming pool"]'),
+              pictures: JSON.parse('["picture1.jpg", "picture2.jpg", "picture3.jpg"]'),
+              type_room: typeRoom,
+            });
+            rooms.push(room);
+          }
+          await this.roomRepository.save(rooms);
+    
+          const establishment = this.establishmentRespository.create({
+            name_establishment: `Establishment ${establishmentType.name_type_establishment} - ${township.township_name}`,
+            email: `example${establishmentType.name_type_establishment}-${township.township_name}@gmail.com`,
+            township: townshipEntity,
+            type_establishment: typeEstablishment,
+            rooms: rooms,
+            user: user,
+          });
+          await this.establishmentRespository.save(establishment);
+        }
+      }
+      await queryRunner.commitTransaction();
+      return 'succesful';
       
     } catch (error) {
       throw new NotFoundException('Request failed, please try again', error);

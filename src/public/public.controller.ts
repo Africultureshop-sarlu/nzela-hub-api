@@ -221,6 +221,29 @@ export class PublicController {
       }
   }
 
+  @Post('seeding')
+  async seedingEstablishments(
+    @Body() customerDto: AddCustomerDto,
+    @Res() res: Response,
+    // @Req() req: Request,
+  ): Promise<any> {
+    try {
+      const establishment =
+        await this.publicService.seedingEstablishments(customerDto);
+
+      return res.status(HttpStatus.OK).json({
+        message: 'Establishments created with successfully',
+        data: establishment,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Establishments has not been created',
+        data: [],
+        error: error,
+      });
+    }
+  }
+
   @Get('/roles')
   async getAllRole(
       @Res() res: Response, 

@@ -2,7 +2,7 @@
 import {
   Controller,
   HttpStatus,
-  // Post,
+  Post,
   Res,
 } from '@nestjs/common';
 import { SeedingService } from './seeding.service';
@@ -13,7 +13,7 @@ import { Response } from 'express';
 export class SeedingController {
   constructor(private readonly seedingService: SeedingService) {}
 
-  // @Post()
+  @Post()
   async create(
     @Res() res: Response,
   ): Promise<any> {

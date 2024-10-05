@@ -30,8 +30,8 @@ export class EstablishmentEntity extends TimestampEntites {
   @Column({ nullable: false })
   address: string;
 
-  @Column({ nullable: false })
-  city: string;
+  // @Column({ nullable: true })
+  // city: string;
 
   @Column({ nullable: true })
   latitude: number;
@@ -42,7 +42,7 @@ export class EstablishmentEntity extends TimestampEntites {
   @Column({ nullable: true })
   zipcode: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   phone: string;
 
   @Column({ nullable: false, unique: true })

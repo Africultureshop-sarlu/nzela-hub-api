@@ -10,6 +10,9 @@ import { TownshipEntity } from 'src/township/entities/township.entity/township.e
 import { UserEntity } from 'src/user/entities/user.entity/user.entity';
 import { RoleEntity } from 'src/role/entities/role.entity/role.entity';
 import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_role.entity';
+import { TypeRoomEntity } from 'src/type_room/entities/type_room.entity/type_room.entity';
+import { RoomEntity } from 'src/room/entities/room.entity/room.entity';
+import { TypeEstablishmentEntity } from 'src/type_establishment/entities/type_establishment.entity/type_establishment.entity';
 
 @Module({
   imports: [
@@ -21,6 +24,10 @@ import { UserRoleEntity } from 'src/user_role/entities/user_role.entity/user_rol
       UserEntity,
       RoleEntity,
       UserRoleEntity,
+      TypeRoomEntity,
+      RoomEntity,
+      TypeEstablishmentEntity,
+      
     ]),
   ],
   controllers: [PublicController],

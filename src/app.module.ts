@@ -26,6 +26,7 @@ import { EmailServerModule } from './email-server/email-server.module';
 import { SeedingModule } from './seeding/seeding.module';
 import { PublicModule } from './public/public.module';
 import { SettingModule } from './setting/setting.module';
+import { CityModule } from './city/city.module';
 
 dotenv.config();
 
@@ -82,6 +83,7 @@ dotenv.config();
     SeedingModule,
     PublicModule,
     SettingModule,
+    CityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
