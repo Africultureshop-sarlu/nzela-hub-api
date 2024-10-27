@@ -28,7 +28,7 @@ import { PublicModule } from './public/public.module';
 import { SettingModule } from './setting/setting.module';
 import { CityModule } from './city/city.module';
 
-dotenv.config();
+dotenv.config({ path: process.env.NODE_ENV === 'production' ? '.env.prod' : '.env' });
 
 @Module({
   imports: [
